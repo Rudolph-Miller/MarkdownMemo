@@ -52,7 +52,7 @@ class MarkdownMemo extends Component {
     super();
 
     this.state = {
-      text: 'sample'
+      text: ''
     };
 
     this.onChangeText = this.onChangeText.bind(this);

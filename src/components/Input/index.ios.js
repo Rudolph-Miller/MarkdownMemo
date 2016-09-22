@@ -38,7 +38,7 @@ export default class Input extends Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <TextInput
-          placeholder='Type in Markdown'
+          placeholder='# Type in Markdown'
           style={[styles.input, { height: this.height() }]}
           onChangeText={this.onChangeText}
           multiline={true}
