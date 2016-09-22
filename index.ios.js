@@ -16,13 +16,17 @@ import { Input, Preview } from './src/components';
 
 class InputWrapper extends Component {
   static propTypes = {
-    navigator: PropTypes.object.isRequired
+    navigator: PropTypes.object.isRequired,
+    initialText: PropTypes.string,
+    onChangeText: PropTypes.func.isRequired
   }
 
   render() {
     return (
       <View style={styles.wrapper}>
-        <Input />
+        <Input
+          initialText={this.props.initialText}
+          onChangeText={this.props.onChangeText} />
       </View>
     );
   }
@@ -30,19 +34,36 @@ class InputWrapper extends Component {
 
 class PreviewWrapper extends Component {
   static propTypes = {
-    navigator: PropTypes.object.isRequired
+    navigator: PropTypes.object.isRequired,
+    text: PropTypes.string.isRequired
   }
 
   render() {
     return (
       <View style={styles.wrapper}>
-        <Preview />
+        <Preview text={this.props.text} />
       </View>
     );
   }
 }
 
 class MarkdownMemo extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      text: 'sample'
+    };
+
+    this.onChangeText = this.onChangeText.bind(this);
+  }
+
+  onChangeText(text) {
+    this.setState({
+      text: text
+    });
+  }
+
   render() {
     return (
       <NavigatorIOS
@@ -50,10 +71,17 @@ class MarkdownMemo extends Component {
         initialRoute={{
           component: InputWrapper,
           title: 'MarkdownMemo',
+          passProps: {
+            onChangeText: this.onChangeText,
+            initialText: this.state.text
+          },
           rightButtonTitle: 'Preview',
           onRightButtonPress: () => this.refs.nav.push({
             component: PreviewWrapper,
-            title: 'Preview'
+            title: 'Preview',
+            passProps: {
+              text: this.state.text
+            }
           }),
           backButtonTitle: 'Back'
         }}
